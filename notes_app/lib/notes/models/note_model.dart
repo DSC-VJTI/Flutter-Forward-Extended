@@ -8,4 +8,8 @@ class NoteModel {
   String? note_id;
 
   NoteModel({this.title, this.note, this.note_id, this.description, this.date});
+
+  Map<String, dynamic> toJson() {
+    return {"date": DateTime.now().toString(), "note": note, "title": title};
+  }
 }
