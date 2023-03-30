@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unused_local_variable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -17,27 +19,27 @@ class _NotesState extends State<Notes> {
   List<NoteModel> models = [
     NoteModel(
         title: "Attend GDSC Workshop",
-        note: "Learn dart basic, install flutter sdk.",
+        note: "Attend GDSC Workshop \nLearn dart basic, install flutter sdk.",
         description: "Learn dart basic, install flutter sdk.",
         date: "7/4/23",
         note_id: "1"),
     NoteModel(
         title: "Test on Monday",
-        note: "Study all the topics covered in BEE",
+        note: "Test on Monday \nStudy all the topics covered in BEE",
         description: "Study all the topics covered in BEE",
         date: "7/4/23",
         note_id: "2"),
     NoteModel(
         title: "Important Text",
-        note: "Make a Notes app",
+        note: "Important Text \nMake a Notes app",
         note_id: "3",
         date: "7/4/23",
         description: "Make a Notes app"),
     NoteModel(
       title: "Music",
-      note: "My Favourite music is ..",
+      note: "Music \nMy Favourite music is ..",
       note_id: "4",
-      description: "Make a Notes app",
+      description: "My Favourite music is ..",
       date: "7/4/23",
     )
   ];
@@ -61,10 +63,16 @@ class _NotesState extends State<Notes> {
             ),
             const Spacer(),
             GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return const NotePadPage();
+              onTap: () async {
+                NoteModel? model = await Navigator.push(context,
+                    MaterialPageRoute(builder: (_) {
+                  return NotePadPage();
                 }));
+                setState(() {
+                  if (model != null) {
+                    models.add(model);
+                  }
+                });
               },
               child: Icon(
                 Icons.edit_note,
@@ -153,10 +161,18 @@ class _NotesState extends State<Notes> {
                     key: UniqueKey(),
                     endActionPane: ActionPane(
                         motion: const ScrollMotion(),
-                        dismissible: DismissiblePane(onDismissed: () {}),
+                        dismissible: DismissiblePane(onDismissed: () {
+                          setState(() {
+                            models.remove(models[index]);
+                          });
+                        }),
                         children: [
                           SlidableAction(
-                            onPressed: (context) {},
+                            onPressed: (context) {
+                              setState(() {
+                                models.remove(models[index]);
+                              });
+                            },
                             backgroundColor: const Color(0xFFFE4A49),
                             foregroundColor: Colors.white,
                             icon: Icons.delete,
@@ -164,7 +180,19 @@ class _NotesState extends State<Notes> {
                           ),
                         ]),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        NoteModel? model = await Navigator.push(context,
+                            MaterialPageRoute(builder: (_) {
+                          return NotePadPage(
+                            model: models[index],
+                          );
+                        }));
+                        setState(() {
+                          if (model != null) {
+                            models[index] = model;
+                          }
+                        });
+                      },
                       child: NoteCard(
                           isFirst: index == 0,
                           isLast: index == models.length - 1,
