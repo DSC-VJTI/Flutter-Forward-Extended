@@ -76,7 +76,16 @@ class _LoginState extends State<Login> {
                       width: width,
                       child: TextFormField(
                         controller: _emailController,
-                        
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter email";
+                          } else if (!RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                              .hasMatch(value)) {
+                            return "Email is not valid";
+                          }
+                          return null;
+                        },
                         cursorColor: NotesTheme.highlightColor,
                         style: NotesTheme.appText(
                             size: width / 24,
@@ -95,7 +104,12 @@ class _LoginState extends State<Login> {
                       width: width,
                       child: TextFormField(
                         controller: _passwordController,
-                        
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter password";
+                          }
+                          return null;
+                        },
                         cursorColor: NotesTheme.highlightColor,
                         obscureText: true,
                         style: NotesTheme.appText(
@@ -125,7 +139,7 @@ class _LoginState extends State<Login> {
                               isLoading1 = true;
                             });
 
-                            isLoading1 = true;
+                            isLoading1 = false;
                           }
                         },
                         child: isLoading1
