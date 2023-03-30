@@ -13,6 +13,7 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   bool isLoading1 = false;
   bool isLoading2 = false;
 
@@ -21,7 +22,7 @@ class _LoginState extends State<Login> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: NotesTheme.backgroundColor,
-
+      
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
@@ -47,7 +48,6 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
-
               Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(top: 10),
@@ -57,7 +57,6 @@ class _LoginState extends State<Login> {
                       size: width / 12, weight: FontWeight.bold),
                 ),
               ),
-
               Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(bottom: 30),
@@ -69,7 +68,87 @@ class _LoginState extends State<Login> {
                       color: Colors.grey),
                 ),
               ),
- 
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: width,
+                      child: TextFormField(
+                        controller: _emailController,
+                        
+                        cursorColor: NotesTheme.highlightColor,
+                        style: NotesTheme.appText(
+                            size: width / 24,
+                            weight: FontWeight.normal,
+                            color: NotesTheme.whiteColor),
+                        decoration: NotesTheme.waInputDecoration(
+                            hint: "Email",
+                            fontSize: width / 24,
+                            prefixIcon: CupertinoIcons.person),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: width,
+                      child: TextFormField(
+                        controller: _passwordController,
+                        
+                        cursorColor: NotesTheme.highlightColor,
+                        obscureText: true,
+                        style: NotesTheme.appText(
+                            size: width / 24,
+                            weight: FontWeight.normal,
+                            color: NotesTheme.whiteColor),
+                        decoration: NotesTheme.waInputDecoration(
+                            hint: "Password",
+                            fontSize: width / 24,
+                            prefixIcon: Icons.fingerprint),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: width,
+                    height: 60,
+                    child: ElevatedButton(
+                        style: NotesTheme.buttonStyle(
+                            backColor: NotesTheme.highlightColor),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading1 = true;
+                            });
+
+                            isLoading1 = true;
+                          }
+                        },
+                        child: isLoading1
+                            ? SizedBox(
+                                height: width / 20,
+                                width: width / 20,
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: NotesTheme.backgroundColor,
+                                ),
+                              )
+                            : Text(
+                                "LOGIN",
+                                style: NotesTheme.appText(
+                                    size: width / 23,
+                                    weight: FontWeight.w900,
+                                    letterSpacing: 1,
+                                    color: NotesTheme.slightBlack),
+                              )),
+                  ),
+                  
+                ],
+              )
             ],
           ),
         ),
