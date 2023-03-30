@@ -217,6 +217,7 @@ class _LoginState extends State<Login> {
                           setState(() {
                             isLoading2 = true;
                           });
+                          isLoading2 = false;
                         },
                         child: isLoading2
                             ? SizedBox(
