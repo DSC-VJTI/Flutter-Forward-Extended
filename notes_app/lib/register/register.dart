@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
 
 class Register extends StatefulWidget {
@@ -23,6 +24,37 @@ class _RegisterState extends State<Register> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: NotesTheme.backgroundColor,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Already have an Account?",
+              style: NotesTheme.appText(
+                  size: width / 27,
+                  weight: FontWeight.w600,
+                  color: NotesTheme.whiteColor),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "LOGIN",
+                style: NotesTheme.appText(
+                    size: width / 27,
+                    weight: FontWeight.bold,
+                    color: NotesTheme.highlightColor),
+              ),
+            )
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
@@ -165,6 +197,10 @@ class _RegisterState extends State<Register> {
                             setState(() {
                               isLoading1 = true;
                             });
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) {
+                              return const Notes();
+                            }));
                           }
                         },
                         child: isLoading1
@@ -186,37 +222,6 @@ class _RegisterState extends State<Register> {
                               )),
                   ),
                 ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an Account?",
-                      style: NotesTheme.appText(
-                          size: width / 27,
-                          weight: FontWeight.w600,
-                          color: NotesTheme.whiteColor),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "LOGIN",
-                        style: NotesTheme.appText(
-                            size: width / 27,
-                            weight: FontWeight.bold,
-                            color: NotesTheme.highlightColor),
-                      ),
-                    )
-                  ],
-                ),
               ),
             ],
           ),

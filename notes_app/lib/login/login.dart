@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
 import 'package:notes_app/register/register.dart';
 
@@ -174,7 +175,10 @@ class _LoginState extends State<Login> {
                             setState(() {
                               isLoading1 = true;
                             });
-
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) {
+                              return const Notes();
+                            }));
                             isLoading1 = false;
                           }
                         },
@@ -218,6 +222,10 @@ class _LoginState extends State<Login> {
                           setState(() {
                             isLoading2 = true;
                           });
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) {
+                            return const Notes();
+                          }));
                           isLoading2 = false;
                         },
                         child: isLoading2
