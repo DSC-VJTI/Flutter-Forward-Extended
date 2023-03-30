@@ -33,13 +33,11 @@ class _NotesState extends State<Notes> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
             Text(
               "5 Notes",
               style: NotesTheme.appText(
                   size: width / 30, weight: FontWeight.normal),
             ),
-            const Spacer(),
           ],
         ),
       ),
