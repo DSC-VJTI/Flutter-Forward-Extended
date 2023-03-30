@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:notes_app/notes/layout/note_pad_page.dart';
 import 'package:notes_app/notes/models/note_model.dart';
 import 'package:notes_app/notes/widgets/note_card.dart';
 import 'package:notes_app/utils/notes_theme.dart';
@@ -15,7 +16,7 @@ class Notes extends StatefulWidget {
 class _NotesState extends State<Notes> {
   List<NoteModel> models = [
     NoteModel(
-        title: "Reminder to Attend GDSC Workshop",
+        title: "Attend GDSC Workshop",
         note: "Learn dart basic, install flutter sdk.",
         description: "Learn dart basic, install flutter sdk.",
         date: "7/4/23",
@@ -52,11 +53,25 @@ class _NotesState extends State<Notes> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Spacer(),
             Text(
               "${models.length} Notes",
               style: NotesTheme.appText(
                   size: width / 30, weight: FontWeight.normal),
             ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return const NotePadPage();
+                }));
+              },
+              child: Icon(
+                Icons.edit_note,
+                color: NotesTheme.highlightColor,
+                size: width / 13,
+              ),
+            )
           ],
         ),
       ),
