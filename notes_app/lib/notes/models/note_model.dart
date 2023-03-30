@@ -7,5 +7,5 @@ class NoteModel {
   String? note;
   String? note_id;
 
-  NoteModel({this.title, this.note, this.note_id});
+  NoteModel({this.title, this.note, this.note_id, this.description, this.date});
 }
