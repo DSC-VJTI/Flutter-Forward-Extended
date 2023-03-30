@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: NotesTheme.backgroundColor,
-      
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
@@ -68,6 +68,7 @@ class _LoginState extends State<Login> {
                       color: Colors.grey),
                 ),
               ),
+              
               Form(
                 key: _formKey,
                 child: Column(
@@ -160,7 +161,58 @@ class _LoginState extends State<Login> {
                                     color: NotesTheme.slightBlack),
                               )),
                   ),
-                  
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(bottom: 20, top: 20),
+                    child: Text(
+                      "OR",
+                      style: NotesTheme.appText(
+                          size: width / 22,
+                          weight: FontWeight.bold,
+                          color: NotesTheme.whiteColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width,
+                    height: 60,
+                    child: ElevatedButton(
+                        style: NotesTheme.buttonStyle(
+                            backColor: NotesTheme.slightBlack,
+                            borderColor: NotesTheme.highlightColor),
+                        onPressed: () {
+                          setState(() {
+                            isLoading2 = true;
+                          });
+                        },
+                        child: isLoading2
+                            ? SizedBox(
+                                height: width / 20,
+                                width: width / 20,
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: NotesTheme.highlightColor,
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/google_icon.png',
+                                      height: width / 13, fit: BoxFit.cover),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Sign-In with Google",
+                                    style: NotesTheme.appText(
+                                        size: width / 25,
+                                        weight: FontWeight.w600,
+                                        letterSpacing: 0.1,
+                                        color: NotesTheme.whiteColor),
+                                  ),
+                                ],
+                              )),
+                  ),
                 ],
               )
             ],
