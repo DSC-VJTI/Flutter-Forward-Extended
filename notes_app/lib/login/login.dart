@@ -102,7 +102,6 @@ class _LoginState extends State<Login> {
                       color: Colors.grey),
                 ),
               ),
-
               Form(
                 key: _formKey,
                 child: Column(
@@ -159,6 +158,9 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Column(
                 children: [
