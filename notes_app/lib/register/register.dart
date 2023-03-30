@@ -1,19 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/utils/notes_theme.dart';
-import 'package:notes_app/register/register.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); 
 
   bool isLoading1 = false;
   bool isLoading2 = false;
@@ -23,40 +24,6 @@ class _LoginState extends State<Login> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: NotesTheme.backgroundColor,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Don't have an Account?",
-              style: NotesTheme.appText(
-                  size: width / 27,
-                  weight: FontWeight.w600,
-                  color: NotesTheme.whiteColor),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return const Register();
-                  // return Register();
-                }));
-              },
-              child: Text(
-                "Sign-Up",
-                style: NotesTheme.appText(
-                    size: width / 27,
-                    weight: FontWeight.bold,
-                    color: NotesTheme.highlightColor),
-              ),
-            )
-          ],
-        ),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
@@ -86,7 +53,7 @@ class _LoginState extends State<Login> {
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(top: 10),
                 child: Text(
-                  "Welcome Back,",
+                  "Get On Board!",
                   style: NotesTheme.appText(
                       size: width / 12, weight: FontWeight.bold),
                 ),
@@ -95,14 +62,13 @@ class _LoginState extends State<Login> {
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(bottom: 30),
                 child: Text(
-                  "Organize your thoughts and ideas",
+                  "Create your profile to start your Journey.",
                   style: NotesTheme.appText(
                       size: width / 22,
                       weight: FontWeight.normal,
                       color: Colors.grey),
                 ),
               ),
-
               Form(
                 key: _formKey,
                 child: Column(
@@ -110,6 +76,31 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       width: width,
                       child: TextFormField(
+                        controller: _nameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter password";
+                          }
+                          return null;
+                        },
+                        cursorColor: NotesTheme.highlightColor,
+                        style: NotesTheme.appText(
+                            size: width / 24,
+                            weight: FontWeight.normal,
+                            color: NotesTheme.whiteColor),
+                        decoration: NotesTheme.waInputDecoration(
+                            hint: "Name",
+                            fontSize: width / 24,
+                            prefixIcon: CupertinoIcons.person),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: width,
+                      child: TextFormField(
+                        cursorColor: NotesTheme.highlightColor,
                         controller: _emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -121,7 +112,6 @@ class _LoginState extends State<Login> {
                           }
                           return null;
                         },
-                        cursorColor: NotesTheme.highlightColor,
                         style: NotesTheme.appText(
                             size: width / 24,
                             weight: FontWeight.normal,
@@ -129,7 +119,7 @@ class _LoginState extends State<Login> {
                         decoration: NotesTheme.waInputDecoration(
                             hint: "Email",
                             fontSize: width / 24,
-                            prefixIcon: CupertinoIcons.person),
+                            prefixIcon: CupertinoIcons.mail),
                       ),
                     ),
                     const SizedBox(
@@ -160,6 +150,9 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: width / 20,
+              ),
               Column(
                 children: [
                   SizedBox(
@@ -173,8 +166,6 @@ class _LoginState extends State<Login> {
                             setState(() {
                               isLoading1 = true;
                             });
-
-                            isLoading1 = false;
                           }
                         },
                         child: isLoading1
@@ -187,7 +178,7 @@ class _LoginState extends State<Login> {
                                 ),
                               )
                             : Text(
-                                "LOGIN",
+                                "SIGNUP",
                                 style: NotesTheme.appText(
                                     size: width / 23,
                                     weight: FontWeight.w900,
@@ -195,60 +186,39 @@ class _LoginState extends State<Login> {
                                     color: NotesTheme.slightBlack),
                               )),
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(bottom: 20, top: 20),
-                    child: Text(
-                      "OR",
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an Account?",
                       style: NotesTheme.appText(
-                          size: width / 22,
-                          weight: FontWeight.bold,
+                          size: width / 27,
+                          weight: FontWeight.w600,
                           color: NotesTheme.whiteColor),
                     ),
-                  ),
-                  SizedBox(
-                    width: width,
-                    height: 60,
-                    child: ElevatedButton(
-                        style: NotesTheme.buttonStyle(
-                            backColor: NotesTheme.slightBlack,
-                            borderColor: NotesTheme.highlightColor),
-                        onPressed: () {
-                          setState(() {
-                            isLoading2 = true;
-                          });
-                        },
-                        child: isLoading2
-                            ? SizedBox(
-                                height: width / 20,
-                                width: width / 20,
-                                child: const CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: NotesTheme.highlightColor,
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/google_icon.png',
-                                      height: width / 13, fit: BoxFit.cover),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Sign-In with Google",
-                                    style: NotesTheme.appText(
-                                        size: width / 25,
-                                        weight: FontWeight.w600,
-                                        letterSpacing: 0.1,
-                                        color: NotesTheme.whiteColor),
-                                  ),
-                                ],
-                              )),
-                  ),
-                ],
-              )
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "LOGIN",
+                        style: NotesTheme.appText(
+                            size: width / 27,
+                            weight: FontWeight.bold,
+                            color: NotesTheme.highlightColor),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
