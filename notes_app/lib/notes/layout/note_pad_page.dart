@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/notes/models/note_model.dart';
 import 'package:notes_app/utils/notes_theme.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NotePadPage extends StatefulWidget {
   NotePadPage({super.key, this.model});
@@ -46,7 +47,11 @@ class _NotePadPageState extends State<NotePadPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    if (_textFieldController.text.isNotEmpty) {
+                      await Share.share(_textFieldController.text);
+                    }
+                  },
                   child: Icon(
                     CupertinoIcons.share,
                     size: width / 20,

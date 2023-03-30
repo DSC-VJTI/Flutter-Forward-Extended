@@ -19,7 +19,8 @@ class _NotesState extends State<Notes> {
   List<NoteModel> models = [
     NoteModel(
         title: "Attend GDSC Workshop",
-        note: "Attend GDSC Workshop \nLearn dart basic, install flutter sdk.",
+        note:
+            "Attend GDSC Workshop \nLearn dart basic, install flutter sdk. \n\nhttps://gdsc.community.dev/e/m9724c/",
         description: "Learn dart basic, install flutter sdk.",
         date: "7/4/23",
         note_id: "1"),
