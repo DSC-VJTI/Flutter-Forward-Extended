@@ -22,7 +22,40 @@ class _LoginState extends State<Login> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: NotesTheme.backgroundColor,
-
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Don't have an Account?",
+              style: NotesTheme.appText(
+                  size: width / 27,
+                  weight: FontWeight.w600,
+                  color: NotesTheme.whiteColor),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return Login();
+                  // return Register();
+                }));
+              },
+              child: Text(
+                "Sign-Up",
+                style: NotesTheme.appText(
+                    size: width / 27,
+                    weight: FontWeight.bold,
+                    color: NotesTheme.highlightColor),
+              ),
+            )
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
