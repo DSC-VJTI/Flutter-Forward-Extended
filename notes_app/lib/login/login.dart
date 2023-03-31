@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/authentication/service.dart';
 import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
 import 'package:notes_app/register/register.dart';
@@ -170,15 +173,19 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               isLoading1 = true;
                             });
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) {
-                              return const Notes();
-                            }));
+                            if (await Authentication.signInWithEmail(
+                                email: _emailController.text,
+                                password: _passwordController.text)) {
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (_) {
+                                return Notes();
+                              }));
+                            }
                             isLoading1 = false;
                           }
                         },
@@ -218,14 +225,16 @@ class _LoginState extends State<Login> {
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.slightBlack,
                             borderColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
                             isLoading2 = true;
                           });
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (_) {
-                            return const Notes();
-                          }));
+                          if (await Authentication.signInWithGoogle()) {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (_) {
+                              return Notes();
+                            }));
+                          }
                           isLoading2 = false;
                         },
                         child: isLoading2

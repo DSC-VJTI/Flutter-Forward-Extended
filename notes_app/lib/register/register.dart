@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
+
+import '../authentication/service.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -192,15 +196,19 @@ class _RegisterState extends State<Register> {
                     child: ElevatedButton(
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               isLoading1 = true;
                             });
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) {
-                              return const Notes();
-                            }));
+                            if (await Authentication.signInNewUserEmail(
+                                _emailController.text,
+                                _passwordController.text)) {
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (_) {
+                                return Notes();
+                              }));
+                            }
                           }
                         },
                         child: isLoading1

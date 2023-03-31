@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/notes/models/note_model.dart';
 import 'package:notes_app/utils/notes_theme.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:intl/intl.dart';
 
 class NotePadPage extends StatefulWidget {
   NotePadPage({super.key, this.model});
@@ -65,7 +66,8 @@ class _NotePadPageState extends State<NotePadPage> {
                     Navigator.pop(
                         context,
                         NoteModel(
-                            date: "7/4/23",
+                            date: DateFormat('yyyy-MM-dd – kk:mm')
+                                .format(DateTime.now()),
                             description: _textFieldController.text
                                         .trim()
                                         .split("\n")
@@ -73,14 +75,15 @@ class _NotePadPageState extends State<NotePadPage> {
                                     1
                                 ? _textFieldController.text.split("\n")[1]
                                 : _textFieldController.text.split("\n")[0],
-                            note_id: "4",
+                            note_id: widget.model!.note_id,
                             title: _textFieldController.text.split("\n").first,
                             note: _textFieldController.text));
                   } else {
                     Navigator.pop(
                         context,
                         NoteModel(
-                            date: "7/4/23",
+                            date: DateFormat('yyyy-MM-dd – kk:mm')
+                                .format(DateTime.now()),
                             description: _textFieldController.text
                                         .trim()
                                         .split("\n")
@@ -88,7 +91,9 @@ class _NotePadPageState extends State<NotePadPage> {
                                     1
                                 ? _textFieldController.text.split("\n")[1]
                                 : _textFieldController.text.split("\n")[0],
-                            note_id: "4",
+                            note_id: DateTime.now()
+                                .microsecondsSinceEpoch
+                                .toString(),
                             title: _textFieldController.text.split("\n").first,
                             note: _textFieldController.text));
                   }

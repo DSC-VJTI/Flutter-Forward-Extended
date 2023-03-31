@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512048153235",
+    "project_id": "notes-app-cda5b",
+    "storage_bucket": "notes-app-cda5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512048153235:android:f33a2e49abd467c17fc366",
+        "android_client_info": {
+          "package_name": "com.gdsc.notes_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512048153235-4sr6sgut3rlshch3as5aojdf2n609se0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHMSAETPnVz_nv54KmMyPQ2sm0StJqLxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512048153235-4sr6sgut3rlshch3as5aojdf2n609se0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
