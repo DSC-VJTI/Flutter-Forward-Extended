@@ -3,6 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:notes_app/authentication/service.dart';
+import 'package:notes_app/login/login.dart';
 import 'package:notes_app/notes/layout/note_pad_page.dart';
 import 'package:notes_app/notes/models/note_model.dart';
 import 'package:notes_app/notes/widgets/note_card.dart';
@@ -45,6 +47,8 @@ class _NotesState extends State<Notes> {
     )
   ];
 
+  Authentication service = Authentication();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -56,6 +60,23 @@ class _NotesState extends State<Notes> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: NotesTheme.backgroundColor,
+                side: BorderSide(color: NotesTheme.highlightColor, width: 1),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                textStyle: NotesTheme.appText(
+                    size: width / 30, weight: FontWeight.normal),
+              ),
+              onPressed: () {
+                service.signOut(isGoogleSignIn: true);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => Login()),
+                    (Route<dynamic> route) => false);
+              },
+              child: Text('Logout'),
+            ),
             const Spacer(),
             Text(
               "${models.length} Notes",
@@ -102,7 +123,9 @@ class _NotesState extends State<Notes> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    print("HIIIIIII#########");
+                  },
                   child: Container(
                     height: width / 10,
                     width: width / 10,
