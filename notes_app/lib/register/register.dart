@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/authentication/service.dart';
 import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
 
@@ -16,6 +19,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController _nameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  Authentication service = Authentication();
   bool isLoading1 = false;
   bool isLoading2 = false;
 
@@ -192,15 +196,23 @@ class _RegisterState extends State<Register> {
                     child: ElevatedButton(
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               isLoading1 = true;
                             });
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (_) {
-                              return const Notes();
-                            }));
+                            await service.newUserSignUp(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    name: _nameController.text,
+                                    context: context)
+                                ? Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (_) {
+                                    return const Notes();
+                                  }))
+                                : ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Sign Up Failed')));
                           }
                         },
                         child: isLoading1
