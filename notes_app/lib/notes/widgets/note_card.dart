@@ -59,15 +59,15 @@ class NoteCard extends StatelessWidget {
               SizedBox(
                 width: width / 30,
               ),
-              Text(
-                model.description!.length > 10
-                    ? model.description!.substring(0, 10)
-                    : model.description!,
-                overflow: TextOverflow.clip,
-                style: NotesTheme.appText(
-                  size: width / 24,
-                  color: Colors.grey,
-                  weight: FontWeight.normal,
+              Flexible(
+                child: Text(
+                  model.description!,
+                  overflow: TextOverflow.ellipsis,
+                  style: NotesTheme.appText(
+                    size: width / 24,
+                    color: Colors.grey,
+                    weight: FontWeight.normal,
+                  ),
                 ),
               ),
             ],
