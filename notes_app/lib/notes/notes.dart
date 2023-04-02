@@ -167,6 +167,7 @@ class _NotesState extends State<Notes> {
                               motion: const ScrollMotion(),
                               dismissible: DismissiblePane(onDismissed: () {
                                 setState(() {
+                                  UserNotes.deleteNote(models[index]);
                                   models.remove(models[index]);
                                 });
                               }),
@@ -174,6 +175,7 @@ class _NotesState extends State<Notes> {
                                 SlidableAction(
                                   onPressed: (context) {
                                     setState(() {
+                                      UserNotes.deleteNote(models[index]);
                                       models.remove(models[index]);
                                     });
                                   },

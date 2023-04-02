@@ -15,7 +15,7 @@ class UserNotes {
       return notes.docs
           .map((e) => NoteModel.fromQueryDocumentSnapshot(e))
           .toList();
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -26,12 +26,30 @@ class UserNotes {
     try {
       final String uid = auth.currentUser!.uid;
       final String note_id = note.note_id!;
-      
-      final Map<String,dynamic> data = note.toJson();
+
+      final Map<String, dynamic> data = note.toJson();
 
       final FirebaseFirestore db = FirebaseFirestore.instance;
-      await db.collection("Users").doc(uid).collection("Notes").doc(note_id).set(data);
-    } catch(e) {
+      await db
+          .collection("Users")
+          .doc(uid)
+          .collection("Notes")
+          .doc(note_id)
+          .set(data);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  static Future<void> deleteNote(NoteModel note) async {
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final String uid = auth.currentUser!.uid;
+      final String note_id = note.note_id!;
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+
+      db.collection("Users").doc(uid).collection("Notes").doc(note_id).delete();
+    } catch (e) {
       print(e.toString());
     }
   }
