@@ -19,4 +19,20 @@ class UserNotes {
       print(e.toString());
     }
   }
+
+  static Future<void> addNote(NoteModel note) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    try {
+      final String uid = auth.currentUser!.uid;
+      final String note_id = note.note_id!;
+      
+      final Map<String,dynamic> data = note.toJson();
+
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+      await db.collection("Users").doc(uid).collection("Notes").doc(note_id).set(data);
+    } catch(e) {
+      print(e.toString());
+    }
+  }
 }

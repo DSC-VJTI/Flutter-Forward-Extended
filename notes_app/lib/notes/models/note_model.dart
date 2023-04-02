@@ -32,6 +32,6 @@ class NoteModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {"date": DateTime.now().toString(), "note": note, "title": title};
+    return {"date": date, "note": note, "title": title};
   }
 }

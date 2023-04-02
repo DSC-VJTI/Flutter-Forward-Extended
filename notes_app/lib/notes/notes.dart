@@ -71,7 +71,7 @@ class _NotesState extends State<Notes> {
                       }));
                       setState(() {
                         if (model != null) {
-                          models.add(model);
+                          UserNotes.addNote(model);
                         }
                       });
                     },
@@ -193,7 +193,7 @@ class _NotesState extends State<Notes> {
                               }));
                               setState(() {
                                 if (model != null) {
-                                  models[index] = model;
+                                  UserNotes.addNote(model);
                                 }
                               });
                             },
