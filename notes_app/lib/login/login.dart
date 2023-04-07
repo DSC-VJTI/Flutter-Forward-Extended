@@ -1,5 +1,9 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/authentication/service.dart';
+import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
 import 'package:notes_app/register/register.dart';
 
@@ -14,9 +18,10 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   bool isLoading1 = false;
   bool isLoading2 = false;
+
+  Authentication service = Authentication();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,6 @@ class _LoginState extends State<Login> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
                   return const Register();
-                  // return Register();
                 }));
               },
               child: Text(
@@ -102,7 +106,6 @@ class _LoginState extends State<Login> {
                       color: Colors.grey),
                 ),
               ),
-
               Form(
                 key: _formKey,
                 child: Column(
@@ -160,6 +163,9 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Column(
                 children: [
                   SizedBox(
@@ -168,13 +174,28 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
+                          print(_formKey.currentState!.validate());
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               isLoading1 = true;
                             });
-
-                            isLoading1 = false;
+                            await service.singnInWithEmail(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    context: context)
+                                ? Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (_) {
+                                    return const Notes();
+                                  }))
+                                : ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Login Failed')));
+                            setState(() {
+                              isLoading1 = false;
+                              _emailController.text = "";
+                              _passwordController.text = "";
+                            });
                           }
                         },
                         child: isLoading1
@@ -213,11 +234,21 @@ class _LoginState extends State<Login> {
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.slightBlack,
                             borderColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
                             isLoading2 = true;
                           });
-                          isLoading2 = false;
+                          await service.signInWithGoogle()
+                              ? Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (_) {
+                                  return const Notes();
+                                }))
+                              : ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Login Failed')));
+                          setState(() {
+                            isLoading2 = false;
+                          });
                         },
                         child: isLoading2
                             ? SizedBox(

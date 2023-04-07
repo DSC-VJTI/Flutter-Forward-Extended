@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/authentication/service.dart';
+import 'package:notes_app/notes/notes.dart';
 import 'package:notes_app/utils/notes_theme.dart';
-
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -14,8 +17,9 @@ class _RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); 
+  final _formKey = GlobalKey<FormState>();
 
+  Authentication service = Authentication();
   bool isLoading1 = false;
   bool isLoading2 = false;
 
@@ -24,6 +28,37 @@ class _RegisterState extends State<Register> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: NotesTheme.backgroundColor,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Already have an Account?",
+              style: NotesTheme.appText(
+                  size: width / 27,
+                  weight: FontWeight.w600,
+                  color: NotesTheme.whiteColor),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "LOGIN",
+                style: NotesTheme.appText(
+                    size: width / 27,
+                    weight: FontWeight.bold,
+                    color: NotesTheme.highlightColor),
+              ),
+            )
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
@@ -161,11 +196,23 @@ class _RegisterState extends State<Register> {
                     child: ElevatedButton(
                         style: NotesTheme.buttonStyle(
                             backColor: NotesTheme.highlightColor),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               isLoading1 = true;
                             });
+                            await service.newUserSignUp(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    name: _nameController.text,
+                                    context: context)
+                                ? Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (_) {
+                                    return const Notes();
+                                  }))
+                                : ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Sign Up Failed')));
                           }
                         },
                         child: isLoading1
@@ -187,37 +234,6 @@ class _RegisterState extends State<Register> {
                               )),
                   ),
                 ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an Account?",
-                      style: NotesTheme.appText(
-                          size: width / 27,
-                          weight: FontWeight.w600,
-                          color: NotesTheme.whiteColor),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "LOGIN",
-                        style: NotesTheme.appText(
-                            size: width / 27,
-                            weight: FontWeight.bold,
-                            color: NotesTheme.highlightColor),
-                      ),
-                    )
-                  ],
-                ),
               ),
             ],
           ),
