@@ -38,24 +38,6 @@ class _NotesState extends State<Notes> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: NotesTheme.backgroundColor,
-                      side: BorderSide(
-                          color: NotesTheme.highlightColor, width: 1),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      textStyle: NotesTheme.appText(
-                          size: width / 30, weight: FontWeight.normal),
-                    ),
-                    onPressed: () {
-                      service.signOut(isGoogleSignIn: true);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => Login()),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: Text('Logout'),
-                  ),
                   const Spacer(),
                   Text(
                     "${models.length} Notes",
@@ -103,16 +85,20 @@ class _NotesState extends State<Notes> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print("HIIIIIII#########");
+                          service.signOut(isGoogleSignIn: true);
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (context) => Login()),
+                              (Route<dynamic> route) => false);
                         },
                         child: Container(
-                          height: width / 10,
-                          width: width / 10,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                              color: NotesTheme.highlightColor,
-                              borderRadius: BorderRadius.circular(width / 20)),
-                        ),
+                            height: width / 10,
+                            width: width / 10,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                                color: NotesTheme.highlightColor,
+                                borderRadius:
+                                    BorderRadius.circular(width / 20)),
+                            child: Icon(Icons.logout_sharp)),
                       ),
                     ],
                   ),
