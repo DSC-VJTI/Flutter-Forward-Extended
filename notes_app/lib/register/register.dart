@@ -194,44 +194,51 @@ class _RegisterState extends State<Register> {
                     width: width,
                     height: 60,
                     child: ElevatedButton(
-                        style: NotesTheme.buttonStyle(
-                            backColor: NotesTheme.highlightColor),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoading1 = true;
-                            });
-                            await service.newUserSignUp(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                    name: _nameController.text,
-                                    context: context)
-                                ? Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (_) {
-                                    return const Notes();
-                                  }))
-                                : ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Sign Up Failed')));
-                          }
-                        },
-                        child: isLoading1
-                            ? SizedBox(
-                                height: width / 20,
-                                width: width / 20,
-                                child: const CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: NotesTheme.backgroundColor,
-                                ),
-                              )
-                            : Text(
-                                "SIGNUP",
-                                style: NotesTheme.appText(
-                                    size: width / 23,
-                                    weight: FontWeight.w900,
-                                    letterSpacing: 1,
-                                    color: NotesTheme.slightBlack),
-                              )),
+                      style: NotesTheme.buttonStyle(
+                          backColor: NotesTheme.highlightColor),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            isLoading1 = true;
+                          });
+                          await Authentication.newUserSignUp(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  name: _nameController.text,
+                                  context: context)
+                              ? Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (_) {
+                                  return const Notes();
+                                }))
+                              : ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Sign Up Failed')));
+                          setState(() {
+                            isLoading1 = false;
+                            _emailController.text = "";
+                            _nameController.text = "";
+                            _passwordController.text = "";
+                          });
+                        }
+                      },
+                      child: isLoading1
+                          ? SizedBox(
+                              height: width / 20,
+                              width: width / 20,
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: NotesTheme.backgroundColor,
+                              ),
+                            )
+                          : Text(
+                              "SIGNUP",
+                              style: NotesTheme.appText(
+                                  size: width / 23,
+                                  weight: FontWeight.w900,
+                                  letterSpacing: 1,
+                                  color: NotesTheme.slightBlack),
+                            ),
+                    ),
                   ),
                 ],
               ),

@@ -21,7 +21,6 @@ class _LoginState extends State<Login> {
   bool isLoading1 = false;
   bool isLoading2 = false;
 
-  Authentication service = Authentication();
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +179,7 @@ class _LoginState extends State<Login> {
                             setState(() {
                               isLoading1 = true;
                             });
-                            await service.singnInWithEmail(
+                            await Authentication.singnInWithEmail(
                                     email: _emailController.text,
                                     password: _passwordController.text,
                                     context: context)
@@ -238,7 +237,7 @@ class _LoginState extends State<Login> {
                           setState(() {
                             isLoading2 = true;
                           });
-                          await service.signInWithGoogle()
+                          await Authentication.signInWithGoogle()
                               ? Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (_) {
                                   return const Notes();

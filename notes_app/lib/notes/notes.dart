@@ -47,8 +47,6 @@ class _NotesState extends State<Notes> {
     )
   ];
 
-  Authentication service = Authentication();
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -70,7 +68,7 @@ class _NotesState extends State<Notes> {
                     size: width / 30, weight: FontWeight.normal),
               ),
               onPressed: () {
-                service.signOut(isGoogleSignIn: true);
+                Authentication.signOut();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => Login()),
                     (Route<dynamic> route) => false);
@@ -124,15 +122,20 @@ class _NotesState extends State<Notes> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print("HIIIIIII#########");
+                    Authentication.signOut();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => Login()),
+                        (Route<dynamic> route) => false);
                   },
                   child: Container(
                     height: width / 10,
                     width: width / 10,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                        color: NotesTheme.highlightColor,
-                        borderRadius: BorderRadius.circular(width / 20)),
+                      color: NotesTheme.highlightColor,
+                      borderRadius: BorderRadius.circular(width / 20),
+                    ),
+                    child: Icon(Icons.power_settings_new),
                   ),
                 ),
               ],

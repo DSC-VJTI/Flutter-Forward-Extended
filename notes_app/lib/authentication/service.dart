@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication {
-  Future<bool> signInWithGoogle() async {
+  static Future<bool> signInWithGoogle() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -14,19 +14,20 @@ class Authentication {
           await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount!.authentication;
+
       final credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken);
 
       await auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      print("Error Caught  :   $e\n");
       return false;
     }
     return true;
   }
 
-  Future<bool> singnInWithEmail(
+  static Future<bool> singnInWithEmail(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -35,6 +36,7 @@ class Authentication {
       await auth.signInWithEmailAndPassword(email: email, password: password);
       await FirebaseAuth.instance.currentUser!.updateEmail(email);
     } on FirebaseAuthException catch (e) {
+      print("Error Caught  :   $e\n");
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('No user Found with this Email')));
@@ -47,7 +49,7 @@ class Authentication {
     return true;
   }
 
-  Future<bool> newUserSignUp(
+  static Future<bool> newUserSignUp(
       {required String email,
       required String password,
       required String name,
@@ -56,10 +58,8 @@ class Authentication {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
-      await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-      await FirebaseAuth.instance.currentUser!.updateEmail(email);
     } on FirebaseAuthException catch (e) {
+      print("Error Caught  :   $e\n");
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Password Provided is too weak')));
@@ -69,21 +69,22 @@ class Authentication {
       }
       return false;
     } catch (e) {
-      print(e.toString());
+      print("Error Caught  :   $e\n");
+      return false;
     }
     return true;
   }
 
-  Future<bool> signOut({required bool isGoogleSignIn}) async {
+  static Future<bool> signOut() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
-      if (isGoogleSignIn) {
+      if (auth.currentUser!.displayName != null) {
         final GoogleSignIn googleSignIn = GoogleSignIn();
         googleSignIn.signOut();
       }
       auth.signOut();
     } catch (e) {
-      print(e.toString());
+      print("Error Caught  :   $e\n");
       return false;
     }
     return true;
